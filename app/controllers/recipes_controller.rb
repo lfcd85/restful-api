@@ -5,6 +5,13 @@ class RecipesController < ApplicationController
   end
 
   def show
+    @recipe = Recipe.select(:title, :making_time, :serves, :ingredients, :cost).find(params[:id])
+    render json: {
+      message: "Recipe details by id",
+      recipe: [
+        @recipe.as_json(except: :id)
+      ]
+    }
   end
 
   def create
