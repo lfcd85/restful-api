@@ -40,8 +40,11 @@ class RecipesController < ApplicationController
 
   def destroy
     @recipe = Recipe.find_by_id(params[:id])
-    if @recipe.empty?
-      return render json: { message: "No Recipe found" }
+    if @recipe.nil?
+      return render json: { message: "No Recipe found" }, status: 404
     end
+
+    @recipe.destroy!
+    render json: { message: "Recipe successfully removed!" }
   end
 end
