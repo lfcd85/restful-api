@@ -36,6 +36,13 @@ class RecipesController < ApplicationController
   end
 
   def update
+    @recipe = Recipe.update(params[:id], params[:recipe].permit(:title, :making_time, :serves, :ingredients, :cost))
+    render json: {
+      message: "Recipe successfully updated!",
+      recipe: [
+        @recipe.as_json(except: [:id, :created_at, :updated_at])
+      ]
+    }
   end
 
   def destroy
