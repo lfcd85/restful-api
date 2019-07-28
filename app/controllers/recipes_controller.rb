@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  protect_from_forgery
+
   def index
     @recipes = Recipe.select(:id, :title, :making_time, :serves, :ingredients, :cost)
     render json: { recipes: @recipes }
@@ -15,11 +17,31 @@ class RecipesController < ApplicationController
   end
 
   def create
+    begin
+      params.require([:title, :making_time, :serves, :ingredients, :cost])
+    rescue ActionController::ParameterMissing
+      return render json: {
+        message: "Recipe creation failed!",
+        required: "title, making_time, serves, ingredients, cost"
+      }, status: 422
+    end
+
+    @recipe = Recipe.create(params[:recipe].permit(:title, :making_time, :serves, :ingredients, :cost))
+    render json: {
+      message: "Recipe successfully created!",
+      recipe: [
+        @recipe.as_json(except: [:id, :created_at, :updated_at])
+      ]
+    }, status: 201
   end
 
   def update
   end
 
   def destroy
+    @recipe = Recipe.find_by_id(params[:id])
+    if @recipe.empty?
+      return render json: { message: "No Recipe found" }
+    end
   end
 end
