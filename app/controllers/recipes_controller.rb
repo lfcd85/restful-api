@@ -23,7 +23,7 @@ class RecipesController < ApplicationController
       return render json: {
         message: "Recipe creation failed!",
         required: "title, making_time, serves, ingredients, cost"
-      }, status: 422
+      }
     end
 
     @recipe = Recipe.create(params[:recipe].permit(:title, :making_time, :serves, :ingredients, :cost))
@@ -32,7 +32,7 @@ class RecipesController < ApplicationController
       recipe: [
         @recipe.as_json(except: [:id, :created_at, :updated_at])
       ]
-    }, status: 201
+    }
   end
 
   def update
