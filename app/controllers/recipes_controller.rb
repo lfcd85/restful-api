@@ -30,7 +30,7 @@ class RecipesController < ApplicationController
     render json: {
       message: "Recipe successfully created!",
       recipe: [
-        @recipe.as_json(except: [:id, :created_at, :updated_at])
+        @recipe.as_json(only: [:title, :making_time, :serves, :ingredients, :cost])
       ]
     }
   end
@@ -40,7 +40,7 @@ class RecipesController < ApplicationController
     render json: {
       message: "Recipe successfully updated!",
       recipe: [
-        @recipe.as_json(except: [:id, :created_at, :updated_at])
+        @recipe.as_json(only: [:title, :making_time, :serves, :ingredients, :cost])
       ]
     }
   end
