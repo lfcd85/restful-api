@@ -9,7 +9,7 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.select(:title, :making_time, :serves, :ingredients, :cost).find(params[:id])
     render json: {
-      message: "Recipe details by id",
+      message: 'Recipe details by id',
       recipe: [
         @recipe.as_json(except: :id)
       ]
@@ -21,14 +21,14 @@ class RecipesController < ApplicationController
       params.require([:title, :making_time, :serves, :ingredients, :cost])
     rescue ActionController::ParameterMissing
       return render json: {
-        message: "Recipe creation failed!",
-        required: "title, making_time, serves, ingredients, cost"
+        message: 'Recipe creation failed!',
+        required: 'title, making_time, serves, ingredients, cost'
       }
     end
 
     @recipe = Recipe.create(params[:recipe].permit(:title, :making_time, :serves, :ingredients, :cost))
     render json: {
-      message: "Recipe successfully created!",
+      message: 'Recipe successfully created!',
       recipe: [
         @recipe.as_json(only: [:title, :making_time, :serves, :ingredients, :cost])
       ]
@@ -38,7 +38,7 @@ class RecipesController < ApplicationController
   def update
     @recipe = Recipe.update(params[:id], params[:recipe].permit(:title, :making_time, :serves, :ingredients, :cost))
     render json: {
-      message: "Recipe successfully updated!",
+      message: 'Recipe successfully updated!',
       recipe: [
         @recipe.as_json(only: [:title, :making_time, :serves, :ingredients, :cost])
       ]
@@ -48,10 +48,10 @@ class RecipesController < ApplicationController
   def destroy
     @recipe = Recipe.find_by_id(params[:id])
     if @recipe.nil?
-      return render json: { message: "No Recipe found" }, status: 404
+      return render json: { message: 'No Recipe found' }, status: 404
     end
 
     @recipe.destroy!
-    render json: { message: "Recipe successfully removed!" }
+    render json: { message: 'Recipe successfully removed!' }
   end
 end
